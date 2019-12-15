@@ -1,24 +1,21 @@
 const { Builder, By } = require("selenium-webdriver");
-const assert = require("assert");
 
 let driver;
 
 describe("入力フォーム デモ", () => {
-  beforeEach(() => {
-    driver = new Builder().forBrowser("chrome").build();
-    process.on("unhandledRejection", console.dir);
-  });
-
-  afterEach(() => {
-    return driver.quit();
-  });
-
-  it("名前欄の必須入力チェック その1", async () => {
+  driver = new Builder().forBrowser("chrome").build();
+  process.on("unhandledRejection", console.dir);
+  beforeAll(async() => {
     // テスト対象のページへアクセス
     await driver.get(
       "http://ics-drive.jp/sandbox/demo/demo.html"
     );
+  });
+  afterAll(() => {
+    return driver.quit();
+  });
 
+  it("名前欄の必須入力チェック その1", async () => {
     // 何も入力せずにSubmitする
     await driver.findElement(By.id("submitButton")).click();
 
@@ -30,11 +27,6 @@ describe("入力フォーム デモ", () => {
   });
 
   it("名前欄の必須入力チェック その2", async () => {
-    // テスト対象のページへアクセス
-    await driver.get(
-      "http://ics-drive.jp/sandbox/demo/demo.html"
-    );
-
     // 名前を入力してSubmitする
     await driver
       .findElement(By.id("name"))
